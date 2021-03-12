@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 object MainDataSource {
     fun getAllItems(): List<MainListItem> {
-        Thread.sleep(5_000L)
+        Thread.sleep(2_000L)
         val result = mutableListOf<MainListItem>()
         for (i in 0..100) {
             result.add(

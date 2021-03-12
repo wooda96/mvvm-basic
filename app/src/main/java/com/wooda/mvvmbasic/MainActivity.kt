@@ -38,8 +38,15 @@ class MainActivity : ItemSelectedNotifiable, BaseActivity() {
 
     override fun onItemSelected(id: String) {
         Logger.d("Item selected: $id")
+        // add 로 할 경우 exit, popEnter animation 은 적용 되지 않음
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
             .add(R.id.fragment_container, ItemDetailFragment.create(id))
             .addToBackStack("detail_$id")
             .commit()
