@@ -2,25 +2,16 @@ package com.wooda.mvvmbasic.itemlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wooda.mvvmbasic.datasource.MainDataSource
 import com.wooda.mvvmbasic.model.MainListItem
+import com.wooda.mvvmbasic.utils.BaseViewModel
 import com.wooda.mvvmbasic.utils.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class ItemListViewModel: ViewModel() {
-
-    init {
-        Logger.d("${this.javaClass.simpleName} is instantiated.")
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Logger.d("${this.javaClass.simpleName} - onCleared()")
-    }
+class ItemListViewModel: BaseViewModel() {
 
     private val _status = MutableLiveData<String>("Fragment Status: OK")
     val status: LiveData<String>

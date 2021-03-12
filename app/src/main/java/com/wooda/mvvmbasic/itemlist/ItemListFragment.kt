@@ -14,16 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wooda.mvvmbasic.R
 import com.wooda.mvvmbasic.databinding.ItemlistFragmentBinding
 import com.wooda.mvvmbasic.model.MainListItem
+import com.wooda.mvvmbasic.utils.BaseFragment
 import com.wooda.mvvmbasic.utils.Logger
 
-class ItemListFragment: Fragment() {
+class ItemListFragment: BaseFragment() {
 
-    override fun onCreateView(
+    override fun createView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Logger.d("${this.javaClass.simpleName} - onCreateView")
         val binding = ItemlistFragmentBinding.inflate(inflater, container, false).also {
             val vm: ItemListViewModel by viewModels()
             it.vm = vm

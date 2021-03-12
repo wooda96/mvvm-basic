@@ -6,9 +6,10 @@ import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import com.wooda.mvvmbasic.databinding.ActivityMainBinding
 import com.wooda.mvvmbasic.itemlist.ItemListFragment
+import com.wooda.mvvmbasic.utils.BaseActivity
 import com.wooda.mvvmbasic.utils.Logger
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater).also {
@@ -21,8 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        Logger.d("${this.javaClass.simpleName} - onCreate()")
 
         if (savedInstanceState == null) {
             Logger.d("${this.javaClass.simpleName} - creating fragment.")
