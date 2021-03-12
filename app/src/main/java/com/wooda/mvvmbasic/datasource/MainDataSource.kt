@@ -1,5 +1,6 @@
 package com.wooda.mvvmbasic.datasource
 
+import com.wooda.mvvmbasic.model.MainItemDetail
 import com.wooda.mvvmbasic.model.MainListItem
 import java.time.LocalDateTime
 
@@ -10,11 +11,20 @@ object MainDataSource {
         for (i in 0..100) {
             result.add(
                 MainListItem(
-                title = "Item #$i",
-                registerTime = LocalDateTime.now()
+                    id = i.toString(),
+                    title = "Item #$i",
+                    registerTime = LocalDateTime.now()
             ))
         }
 
         return result
+    }
+
+    fun loadDetail(id: String): MainItemDetail {
+        Thread.sleep(2_000L)
+        return MainItemDetail(
+            id = id,
+            message = "Detail item message $id"
+        )
     }
 }

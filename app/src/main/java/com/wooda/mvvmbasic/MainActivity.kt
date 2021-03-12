@@ -5,11 +5,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import com.wooda.mvvmbasic.databinding.ActivityMainBinding
+import com.wooda.mvvmbasic.itemdetail.ItemDetailFragment
 import com.wooda.mvvmbasic.itemlist.ItemListFragment
 import com.wooda.mvvmbasic.utils.BaseActivity
+import com.wooda.mvvmbasic.utils.ItemSelectedNotifiable
 import com.wooda.mvvmbasic.utils.Logger
 
-class MainActivity : BaseActivity() {
+class MainActivity : ItemSelectedNotifiable, BaseActivity() {
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater).also {
@@ -32,5 +34,14 @@ class MainActivity : BaseActivity() {
             fragmentTransaction.add(R.id.fragment_container, itemListFragment)
             fragmentTransaction.commit()
         }
+    }
+
+    override fun onItemSelected(id: String) {
+        Logger.d("Item selected: $id")
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragment_container, ItemDetailFragment.create(id))
+            .addToBackStack("detail_$id")
+            .commit()
     }
 }

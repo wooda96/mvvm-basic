@@ -15,6 +15,7 @@ import com.wooda.mvvmbasic.R
 import com.wooda.mvvmbasic.databinding.ItemlistFragmentBinding
 import com.wooda.mvvmbasic.model.MainListItem
 import com.wooda.mvvmbasic.utils.BaseFragment
+import com.wooda.mvvmbasic.utils.ItemSelectedNotifiable
 import com.wooda.mvvmbasic.utils.Logger
 
 class ItemListFragment: BaseFragment() {
@@ -32,7 +33,7 @@ class ItemListFragment: BaseFragment() {
 
         val itemsObserver = Observer<List<MainListItem>> {
             binding.itemListRecycler.layoutManager = LinearLayoutManager(context)
-            binding.itemListRecycler.adapter = ItemListAdapter(it)
+            binding.itemListRecycler.adapter = ItemListAdapter(it, activity as? ItemSelectedNotifiable)
         }
 
         binding.vm?.items?.observe(viewLifecycleOwner, itemsObserver)
@@ -41,24 +42,36 @@ class ItemListFragment: BaseFragment() {
     }
 }
 
-class ItemViewHolder(rootView: View): RecyclerView.ViewHolder(rootView) {
+class ItemViewHolder(
+    private val rootView: View,
+    private val onItemSelected: ItemSelectedNotifiable?
+): RecyclerView.ViewHolder(rootView) {
     private val titleText = rootView.findViewById<TextView>(R.id.item_title)
     private val registerTimeText = rootView.findViewById<TextView>(R.id.item_register_time)
 
     fun bind(item: MainListItem) {
         titleText.text = item.title
         registerTimeText.text = item.registerTime.toString()
+
+        onItemSelected?.also { notifiable ->
+            rootView.setOnClickListener {
+                notifiable.onItemSelected(item.id)
+            }
+        }
     }
 }
 
-class ItemListAdapter(private val itemList: List<MainListItem>): RecyclerView.Adapter<ItemViewHolder>() {
+class ItemListAdapter(
+    private val itemList: List<MainListItem>,
+    private val onItemSelected: ItemSelectedNotifiable?
+): RecyclerView.Adapter<ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(
             R.layout.item_layout,
             parent,
             false
         )
-        return ItemViewHolder(v)
+        return ItemViewHolder(v, onItemSelected)
     }
 
     override fun getItemCount() = itemList.size

@@ -1,5 +1,6 @@
 package com.wooda.mvvmbasic.utils
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
@@ -7,6 +8,11 @@ abstract class BaseActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Logger.lifecycle(this, "onCreate(), savedInstanceState: $savedInstanceState")
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Logger.lifecycle(this, "onNewIntent()")
     }
 
     override fun onStart() {
