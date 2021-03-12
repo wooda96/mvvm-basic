@@ -3,15 +3,17 @@ package com.wooda.mvvmbasic
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
 import com.wooda.mvvmbasic.databinding.ActivityMainBinding
+import com.wooda.mvvmbasic.itemlist.ItemListFragment
 import com.wooda.mvvmbasic.utils.Logger
 
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater).also {
-            val model: MainViewModel by viewModels()
-            it.vm = model
+            val vm: MainViewModel by viewModels()
+            it.vm = vm
             it.lifecycleOwner = this
         }
     }
@@ -21,5 +23,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Logger.d("${this.javaClass.simpleName} - onCreate()")
+
+        if (savedInstanceState == null) {
+            Logger.d("${this.javaClass.simpleName} - creating fragment.")
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            val itemListFragment = ItemListFragment()
+            fragmentTransaction.add(R.id.fragment_container, itemListFragment)
+            fragmentTransaction.commit()
+        }
     }
 }
