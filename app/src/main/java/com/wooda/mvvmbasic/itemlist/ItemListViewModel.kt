@@ -31,4 +31,8 @@ class ItemListViewModel: BaseViewModel() {
         itemPagedList = LivePagedListBuilder(itemDataSourceFactory, pagedListConfig)
             .build()
     }
+
+    fun refresh() {
+        itemLiveDataSource.value?.invalidate()
+    }
 }

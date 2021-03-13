@@ -38,9 +38,16 @@ class ItemListFragment: BaseFragment() {
 
         val adapter = ItemListPageAdapter(activity as? ItemSelectedNotifiable)
         binding.vm?.itemPagedList?.observe(viewLifecycleOwner) {
+            Logger.d("new item page list is ready.")
+            binding.swipeRefreshLayout.isRefreshing = false
             adapter.submitList(it)
         }
         binding.itemListRecycler.adapter = adapter
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            Logger.d("Refreshing is started.")
+            binding.vm?.refresh()
+        }
 
         return binding.root
     }

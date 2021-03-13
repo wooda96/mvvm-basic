@@ -47,7 +47,7 @@ class MainPagedDataSource: PageKeyedDataSource<Int, MainListItem>() {
         val endIndex = page * PageSize - 1
 
         Logger.d("Generating item $startIndex to $endIndex")
-        Thread.sleep(1000)
+        Thread.sleep(2_000)
 
         val result = mutableListOf<MainListItem>()
         for (i in startIndex..endIndex) {
