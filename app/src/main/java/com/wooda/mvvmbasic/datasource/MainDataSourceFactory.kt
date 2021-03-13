@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import com.wooda.mvvmbasic.model.MainItemDetail
 import com.wooda.mvvmbasic.model.MainListItem
 import com.wooda.mvvmbasic.utils.Logger
 
@@ -18,5 +19,15 @@ class MainDataSourceFactory: DataSource.Factory<Int, MainListItem>() {
         val dataSource = MainPagedDataSource()
         _itemLiveDataSource.postValue(dataSource)
         return dataSource
+    }
+}
+
+class MainDetailDataSourceFactory(
+    private val initialId: String
+): DataSource.Factory<Int, MainItemDetail>() {
+
+    override fun create(): DataSource<Int, MainItemDetail> {
+        Logger.d("Creating detail data source.")
+        return DetailPagedDataSource(initialId.toInt())
     }
 }

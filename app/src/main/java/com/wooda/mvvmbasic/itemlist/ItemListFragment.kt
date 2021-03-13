@@ -72,26 +72,6 @@ class ItemViewHolder(
     }
 }
 
-class ItemListAdapter(
-    private val itemList: List<MainListItem>,
-    private val onItemSelected: ItemSelectedNotifiable?
-): RecyclerView.Adapter<ItemViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_layout,
-            parent,
-            false
-        )
-        return ItemViewHolder(v, onItemSelected)
-    }
-
-    override fun getItemCount() = itemList.size
-
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(itemList[position])
-    }
-
-}
 
 private val DIFF_CALLBACK: DiffUtil.ItemCallback<MainListItem> = object: DiffUtil.ItemCallback<MainListItem>() {
     override fun areItemsTheSame(oldItem: MainListItem, newItem: MainListItem): Boolean {

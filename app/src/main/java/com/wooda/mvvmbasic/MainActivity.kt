@@ -1,11 +1,9 @@
 package com.wooda.mvvmbasic
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.commit
 import com.wooda.mvvmbasic.databinding.ActivityMainBinding
-import com.wooda.mvvmbasic.itemdetail.ItemDetailFragment
+import com.wooda.mvvmbasic.itemdetail.ItemDetailMainFragment
 import com.wooda.mvvmbasic.itemlist.ItemListFragment
 import com.wooda.mvvmbasic.utils.BaseActivity
 import com.wooda.mvvmbasic.utils.ItemSelectedNotifiable
@@ -47,7 +45,7 @@ class MainActivity : ItemSelectedNotifiable, BaseActivity() {
                 R.anim.fade_in,
                 R.anim.slide_out
             )
-            .add(R.id.fragment_container, ItemDetailFragment.create(id))
+            .add(R.id.fragment_container, ItemDetailMainFragment.create(id))
             .addToBackStack("detail_$id")
             .commit()
     }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.wooda.mvvmbasic.databinding.ItemDetailFragmentBinding
+import com.wooda.mvvmbasic.databinding.ItemDetailLayoutBinding
 import com.wooda.mvvmbasic.utils.BaseFragment
 
 class ItemDetailFragment: BaseFragment() {
@@ -31,7 +31,7 @@ class ItemDetailFragment: BaseFragment() {
     ): View? {
         val itemId = id ?: throw Exception("Something wrong...")
 
-        val binding = ItemDetailFragmentBinding.inflate(inflater, container, false).also {
+        val binding = ItemDetailLayoutBinding.inflate(inflater, container, false).also {
             val vm: ItemDetailViewModel by viewModels {
                 ItemDetailViewModelFactory(itemId)
             }
