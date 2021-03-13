@@ -6,16 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.wooda.mvvmbasic.MainApplication
+import com.wooda.mvvmbasic.utils.logger.ILogger
+import javax.inject.Inject
 
 abstract class BaseFragment: Fragment() {
+
+    @Inject lateinit var logger: ILogger
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Logger.lifecycle(this, "onCreate() - savedInstanceState: $savedInstanceState")
+        logger.lifecycle(this, "onCreate() - savedInstanceState: $savedInstanceState")
     }
 
     override fun onAttach(context: Context) {
+        (activity?.applicationContext as? MainApplication)?.appComponent?.inject(this)
         super.onAttach(context)
-        Logger.lifecycle(this, "onAttach()")
+        logger.lifecycle(this, "onAttach()")
     }
 
     override fun onCreateView(
@@ -23,28 +30,28 @@ abstract class BaseFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Logger.lifecycle(this, "onCreateView() - savedInstanceState: $savedInstanceState")
+        logger.lifecycle(this, "onCreateView() - savedInstanceState: $savedInstanceState")
         return createView(inflater, container, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Logger.lifecycle(this, "onActivityCreated() - savedInstanceState: $savedInstanceState")
+        logger.lifecycle(this, "onActivityCreated() - savedInstanceState: $savedInstanceState")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Logger.lifecycle(this, "onDestroyView()")
+        logger.lifecycle(this, "onDestroyView()")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Logger.lifecycle(this, "onDestroy()")
+        logger.lifecycle(this, "onDestroy()")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Logger.lifecycle(this, "onDetach()")
+        logger.lifecycle(this, "onDetach()")
     }
 
     abstract fun createView(

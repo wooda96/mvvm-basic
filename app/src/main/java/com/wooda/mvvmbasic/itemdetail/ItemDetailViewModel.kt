@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.wooda.mvvmbasic.datasource.MainDataSource
 import com.wooda.mvvmbasic.model.MainItemDetail
 import com.wooda.mvvmbasic.utils.BaseViewModel
-import com.wooda.mvvmbasic.utils.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -27,11 +26,11 @@ class ItemDetailViewModel(
 
     private fun loadDetail() {
         viewModelScope.launch(Dispatchers.IO) {
-            Logger.d("Starting loading item detail... isActive: $isActive")
+            logger.d("Starting loading item detail... isActive: $isActive")
             _status.postValue("Loading detail id: $id")
 
             val result = MainDataSource.loadDetail(id)
-            Logger.d("Loading detail $id finished. isActive: $isActive")
+            logger.d("Loading detail $id finished. isActive: $isActive")
             _status.postValue("Loading done.")
             _detail.postValue(result)
         }

@@ -12,11 +12,11 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.wooda.mvvmbasic.DaggerApplicationComponent
 import com.wooda.mvvmbasic.R
 import com.wooda.mvvmbasic.databinding.ItemDetailFragmentBinding
 import com.wooda.mvvmbasic.model.MainItemDetail
 import com.wooda.mvvmbasic.utils.BaseFragment
-import com.wooda.mvvmbasic.utils.Logger
 
 class ItemDetailMainFragment: BaseFragment() {
     companion object {
@@ -50,14 +50,14 @@ class ItemDetailMainFragment: BaseFragment() {
 
         if (savedInstanceState != null) {
             savedInstanceState.keySet().forEach {
-                Logger.d("bundle found - $it")
+                logger.d("bundle found - $it")
             }
         }
 
 //        binding.pager.adapter = ItemDetailPagerAdapter(this, itemId)
         val adapter = DetailPageAdapter()
         binding.vm?.detailPagedList?.observe(viewLifecycleOwner) {
-            Logger.d("New detail item is ready.")
+            logger.d("New detail item is ready.")
             adapter.submitList(it)
         }
         binding.pager.adapter = adapter
@@ -91,6 +91,9 @@ class DetailViewHolder(
 
 
 class DetailPageAdapter(): PagedListAdapter<MainItemDetail, DetailViewHolder>(DIFF_CALLBACK) {
+
+    private val logger = DaggerApplicationComponent.create().logger
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(
             R.layout.item_detail_layout,
@@ -106,6 +109,6 @@ class DetailPageAdapter(): PagedListAdapter<MainItemDetail, DetailViewHolder>(DI
         if (item != null)
             holder.bind(item)
         else
-            Logger.d("Detail item is null!! - $position")
+            logger.d("Detail item is null!! - $position")
     }
 }

@@ -7,7 +7,6 @@ import com.wooda.mvvmbasic.itemdetail.ItemDetailMainFragment
 import com.wooda.mvvmbasic.itemlist.ItemListFragment
 import com.wooda.mvvmbasic.utils.BaseActivity
 import com.wooda.mvvmbasic.utils.ItemSelectedNotifiable
-import com.wooda.mvvmbasic.utils.Logger
 
 class MainActivity : ItemSelectedNotifiable, BaseActivity() {
 
@@ -24,7 +23,7 @@ class MainActivity : ItemSelectedNotifiable, BaseActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            Logger.d("${this.javaClass.simpleName} - creating fragment.")
+            logger.d("${this.javaClass.simpleName} - creating fragment.")
             val fragmentManager = supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
 
@@ -35,7 +34,7 @@ class MainActivity : ItemSelectedNotifiable, BaseActivity() {
     }
 
     override fun onItemSelected(id: String) {
-        Logger.d("Item selected: $id")
+        logger.d("Item selected: $id")
         // add 로 할 경우 exit, popEnter animation 은 적용 되지 않음
         supportFragmentManager
             .beginTransaction()

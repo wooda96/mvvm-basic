@@ -1,11 +1,13 @@
 package com.wooda.mvvmbasic.datasource
 
 import androidx.paging.PageKeyedDataSource
+import com.wooda.mvvmbasic.DaggerApplicationComponent
 import com.wooda.mvvmbasic.model.MainListItem
-import com.wooda.mvvmbasic.utils.Logger
 import java.time.LocalDateTime
 
 class MainPagedDataSource: PageKeyedDataSource<Int, MainListItem>() {
+
+    private val logger = DaggerApplicationComponent.create().logger
 
     companion object {
         const val PageSize = 10
@@ -16,21 +18,21 @@ class MainPagedDataSource: PageKeyedDataSource<Int, MainListItem>() {
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, MainListItem>
     ) {
-        Logger.d("Trying load initial page - load size: ${params.requestedLoadSize}")
+        logger.d("Trying load initial page - load size: ${params.requestedLoadSize}")
         val result = generateListItem(FirstPage)
 
         callback.onResult(result, null, FirstPage + 1)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, MainListItem>) {
-        Logger.d("Trying load next page: key: ${params.key}")
+        logger.d("Trying load next page: key: ${params.key}")
         val result = generateListItem(params.key)
 
         callback.onResult(result, params.key + 1)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, MainListItem>) {
-        Logger.d("Trying load previous page: key: ${params.key}")
+        logger.d("Trying load previous page: key: ${params.key}")
         val result = generateListItem(params.key)
 
         val adjacentKey = if (params.key > 1)
@@ -46,7 +48,7 @@ class MainPagedDataSource: PageKeyedDataSource<Int, MainListItem>() {
         val startIndex = (page - 1) * PageSize
         val endIndex = page * PageSize - 1
 
-        Logger.d("Generating item $startIndex to $endIndex")
+        logger.d("Generating item $startIndex to $endIndex")
         Thread.sleep(2_000)
 
         val result = mutableListOf<MainListItem>()

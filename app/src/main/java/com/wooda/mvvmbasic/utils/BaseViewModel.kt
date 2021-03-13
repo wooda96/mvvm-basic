@@ -1,14 +1,18 @@
 package com.wooda.mvvmbasic.utils
 
 import androidx.lifecycle.ViewModel
+import com.wooda.mvvmbasic.DaggerApplicationComponent
 
 abstract class BaseViewModel: ViewModel() {
+
+    protected val logger = DaggerApplicationComponent.create().logger
+
     init {
-        Logger.lifecycle(this, "instance is created.")
+        logger.lifecycle(this, "instance is created.")
     }
 
     override fun onCleared() {
         super.onCleared()
-        Logger.lifecycle(this, "onCleared()")
+        logger.lifecycle(this, "onCleared()")
     }
 }

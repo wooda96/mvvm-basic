@@ -5,7 +5,13 @@ import javax.inject.Inject
 
 class SimpleLogger @Inject constructor(): ILogger {
 
-    private val Tag = "MvvmBasicLog"
+    companion object {
+        private val Tag = "MvvmBasicLog"
+    }
+
+    init {
+        Log.d(Tag, "[LoggerTrack] SimpleLogger is created.")
+    }
 
     override fun d(msg: String) {
         Log.d(Tag, msg)
