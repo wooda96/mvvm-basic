@@ -3,40 +3,47 @@ package com.wooda.mvvmbasic.utils
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.wooda.mvvmbasic.MainApplication
+import com.wooda.mvvmbasic.utils.logger.ILogger
+import javax.inject.Inject
 
 abstract class BaseActivity: AppCompatActivity() {
+
+    @Inject lateinit var logger: ILogger
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        (applicationContext as MainApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        Logger.lifecycle(this, "onCreate(), savedInstanceState: $savedInstanceState")
+        logger.lifecycle(this, "onCreate(), savedInstanceState: $savedInstanceState")
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Logger.lifecycle(this, "onNewIntent()")
+        logger.lifecycle(this, "onNewIntent()")
     }
 
     override fun onStart() {
         super.onStart()
-        Logger.lifecycle(this, "onStart()")
+        logger.lifecycle(this, "onStart()")
     }
 
     override fun onResume() {
         super.onResume()
-        Logger.lifecycle(this, "onResume()")
+        logger.lifecycle(this, "onResume()")
     }
 
     override fun onPause() {
         super.onPause()
-        Logger.lifecycle(this, "onPause()")
+        logger.lifecycle(this, "onPause()")
     }
 
     override fun onStop() {
         super.onStop()
-        Logger.lifecycle(this, "onStop()")
+        logger.lifecycle(this, "onStop()")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Logger.lifecycle(this, "onDestroy()")
+        logger.lifecycle(this, "onDestroy()")
     }
 }
