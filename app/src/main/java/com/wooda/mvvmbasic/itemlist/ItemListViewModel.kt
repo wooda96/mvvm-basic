@@ -2,14 +2,13 @@ package com.wooda.mvvmbasic.itemlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.wooda.mvvmbasic.datasource.MainDataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PageKeyedDataSource
+import androidx.paging.PagedList
+import com.wooda.mvvmbasic.datasource.MainDataSourceFactory
+import com.wooda.mvvmbasic.datasource.MainPagedDataSource
 import com.wooda.mvvmbasic.model.MainListItem
 import com.wooda.mvvmbasic.utils.BaseViewModel
-import com.wooda.mvvmbasic.utils.Logger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 class ItemListViewModel: BaseViewModel() {
 
@@ -17,24 +16,19 @@ class ItemListViewModel: BaseViewModel() {
     val status: LiveData<String>
         get() = _status
 
-    private val _items: MutableLiveData<List<MainListItem>> by lazy {
-        MutableLiveData(listOf<MainListItem>()).also {
-            loadItems()
-        }
-    }
-    val items: LiveData<List<MainListItem>>
-        get() = _items
+    private val itemLiveDataSource: LiveData<PageKeyedDataSource<Int, MainListItem>>
+    val itemPagedList: LiveData<PagedList<MainListItem>>
 
-    private fun loadItems() {
-        viewModelScope.launch(Dispatchers.IO) {
-            Logger.d("Starting load main items... isActive: $isActive")
-            _status.postValue("Loading...")
+    init {
+        val itemDataSourceFactory = MainDataSourceFactory()
+        itemLiveDataSource = itemDataSourceFactory.itemLiveDataSource
 
-            val result = MainDataSource.getAllItems()
-            Logger.d("Loading is finished: isActive: $isActive")
-            _status.postValue("Done")
+        val pagedListConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(MainPagedDataSource.PageSize)
+            .build()
 
-            _items.postValue(result)
-        }
+        itemPagedList = LivePagedListBuilder(itemDataSourceFactory, pagedListConfig)
+            .build()
     }
 }
